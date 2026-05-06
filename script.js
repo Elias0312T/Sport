@@ -1,4 +1,4 @@
-// Firebase Config (fix & ready)
+// Firebase Config (DEIN Projekt)
 const firebaseConfig = {
   apiKey: "AIzaSyBUDnQCtE7PoquOGjArchkZaYZJmT7oRBY",
   authDomain: "elias-fitness-friends.firebaseapp.com",
@@ -8,11 +8,11 @@ const firebaseConfig = {
   appId: "1:387221074867:web:9538df426a919c3be811c6"
 };
 
-// Firebase starten
+// Start Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// USER STATUS LIVE UPDATEN
+// Live Status
 auth.onAuthStateChanged(user => {
   if (user) {
     document.getElementById("user").innerText =
@@ -23,18 +23,14 @@ auth.onAuthStateChanged(user => {
   }
 });
 
-// REGISTRIEREN
+// REGISTER
 function register() {
   const email = prompt("Email eingeben:");
   const password = prompt("Passwort eingeben:");
 
   auth.createUserWithEmailAndPassword(email, password)
-    .then(() => {
-      alert("Account erstellt!");
-    })
-    .catch(err => {
-      alert("Fehler: " + err.message);
-    });
+    .then(() => alert("Account erstellt!"))
+    .catch(err => alert(err.message));
 }
 
 // LOGIN
@@ -43,12 +39,8 @@ function login() {
   const password = prompt("Passwort eingeben:");
 
   auth.signInWithEmailAndPassword(email, password)
-    .then(() => {
-      alert("Login erfolgreich!");
-    })
-    .catch(err => {
-      alert("Fehler: " + err.message);
-    });
+    .then(() => alert("Login erfolgreich!"))
+    .catch(err => alert(err.message));
 }
 
 // LOGOUT
