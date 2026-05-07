@@ -4,73 +4,51 @@
   <meta charset="UTF-8">
   <title>Elias Fitness Friends</title>
 
-  <!-- Firebase (funktionierende Compat-Version) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
   <link rel="stylesheet" href="style.css">
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f0f1a, #1b1b2f);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .container {
-      text-align: center;
-    }
-
-    .card {
-      background: #1f1f2e;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      margin-top: 20px;
-    }
-
-    button {
-      margin: 10px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 16px;
-      background: #4CAF50;
-      color: white;
-    }
-
-    button:hover {
-      opacity: 0.8;
-    }
-
-    .logout {
-      background: #f44336;
-    }
-
-    #user {
-      margin-bottom: 15px;
-    }
-  </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>🏋️ Elias Fitness Friends</h1>
+<div class="app">
+
+  <div class="topbar">
+    <h1>🏋️ Elias Fitness Friends</h1>
+
+    <div class="auth-buttons">
+      <button onclick="register()">Registrieren</button>
+      <button onclick="login()">Login</button>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+  </div>
 
   <div class="card">
-    <p id="user">Nicht eingeloggt</p>
+    <h2 id="user">Nicht eingeloggt</h2>
 
-    <button onclick="login()">Login</button>
-    <button onclick="register()">Registrieren</button>
-    <button class="logout" onclick="logout()">Logout</button>
+    <div class="stats">
+      <p>⭐ Level: <span id="level">1</span></p>
+      <p>🔥 XP: <span id="xp">0</span></p>
+    </div>
   </div>
+
+  <div class="card">
+    <h2>🎯 Neues Tagesziel</h2>
+
+    <input id="sport" placeholder="Sportart (z.B. Liegestütze)">
+    <input id="amount" type="number" placeholder="Anzahl">
+
+    <button onclick="saveGoal()">Ziel speichern</button>
+  </div>
+
+  <div class="card">
+    <h2>📋 Deine Ziele</h2>
+
+    <ul id="goals"></ul>
+  </div>
+
 </div>
 
 <script src="script.js"></script>
