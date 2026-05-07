@@ -15,44 +15,110 @@
 
 <body>
 
-  <div class="app">
+  <div class="sidebar">
 
-    <div class="topbar">
-      <h1>🏋️ Elias Fitness Friends</h1>
+    <h2>🏋️ EFF</h2>
 
-      <div>
-        <button onclick="register()">Registrieren</button>
-        <button onclick="login()">Login</button>
-        <button class="logout" onclick="logout()">Logout</button>
-      </div>
-    </div>
+    <button onclick="showSection('dashboard')">
+      Dashboard
+    </button>
 
-    <div class="card">
-      <h2 id="user">Nicht eingeloggt</h2>
+    <button onclick="showSection('goals')">
+      Wochenziele
+    </button>
 
-      <div class="stats">
-        <p>⭐ Level: <span id="level">1</span></p>
-        <p>🔥 XP: <span id="xp">0</span></p>
-      </div>
-    </div>
+    <button onclick="showSection('ranking')">
+      Ranking
+    </button>
 
-    <div class="card">
-      <h2>🎯 Neues Tagesziel</h2>
-
-      <input id="sport" placeholder="Sportart (z.B. Liegestütze)">
-      <input id="amount" type="number" placeholder="Anzahl">
-
-      <button onclick="saveGoal()">Ziel speichern</button>
-    </div>
-
-    <div class="card">
-      <h2>📋 Deine Ziele</h2>
-
-      <ul id="goals"></ul>
-    </div>
+    <button onclick="logout()">
+      Logout
+    </button>
 
   </div>
 
+  <div class="main">
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="section">
+
+      <h1>🔥 Elias Fitness Friends</h1>
+
+      <div class="card">
+        <h2 id="user">Nicht eingeloggt</h2>
+
+        <div class="stats">
+
+          <div class="stat-box">
+            <h3>⭐ Level</h3>
+            <p id="level">1</p>
+          </div>
+
+          <div class="stat-box">
+            <h3>🔥 XP</h3>
+            <p id="xp">0</p>
+          </div>
+
+          <div class="stat-box">
+            <h3>🏆 Rang</h3>
+            <p id="rank">#-</p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- GOALS -->
+    <section id="goals" class="section hidden">
+
+      <div class="card">
+
+        <h2>🎯 Wochenziel erstellen</h2>
+
+        <select id="sportSelect"></select>
+
+        <input
+          type="number"
+          id="amount"
+          placeholder="Anzahl / Minuten / KM">
+
+        <button onclick="createGoal()">
+          Ziel erstellen
+        </button>
+
+      </div>
+
+      <div class="card">
+
+        <h2>📋 Deine Wochenziele</h2>
+
+        <ul id="goalsList"></ul>
+
+      </div>
+
+    </section>
+
+    <!-- RANKING -->
+    <section id="ranking" class="section hidden">
+
+      <div class="card">
+
+        <h2>🏆 Globales Ranking</h2>
+
+        <ul id="rankingList"></ul>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="sports.js"></script>
+  <script src="xp-system.js"></script>
+  <script src="ranking.js"></script>
+  <script src="ui.js"></script>
   <script src="script.js"></script>
 
 </body>
