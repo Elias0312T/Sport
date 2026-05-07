@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8">
   <title>Elias Fitness Friends</title>
 
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -13,45 +15,46 @@
 
 <body>
 
-<div class="app">
+  <div class="app">
 
-  <div class="topbar">
-    <h1>🏋️ Elias Fitness Friends</h1>
+    <div class="topbar">
+      <h1>🏋️ Elias Fitness Friends</h1>
 
-    <div class="auth-buttons">
-      <button onclick="register()">Registrieren</button>
-      <button onclick="login()">Login</button>
-      <button class="logout" onclick="logout()">Logout</button>
+      <div>
+        <button onclick="register()">Registrieren</button>
+        <button onclick="login()">Login</button>
+        <button class="logout" onclick="logout()">Logout</button>
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <h2 id="user">Nicht eingeloggt</h2>
+    <div class="card">
+      <h2 id="user">Nicht eingeloggt</h2>
 
-    <div class="stats">
-      <p>⭐ Level: <span id="level">1</span></p>
-      <p>🔥 XP: <span id="xp">0</span></p>
+      <div class="stats">
+        <p>⭐ Level: <span id="level">1</span></p>
+        <p>🔥 XP: <span id="xp">0</span></p>
+      </div>
     </div>
+
+    <div class="card">
+      <h2>🎯 Neues Tagesziel</h2>
+
+      <input id="sport" placeholder="Sportart (z.B. Liegestütze)">
+      <input id="amount" type="number" placeholder="Anzahl">
+
+      <button onclick="saveGoal()">Ziel speichern</button>
+    </div>
+
+    <div class="card">
+      <h2>📋 Deine Ziele</h2>
+
+      <ul id="goals"></ul>
+    </div>
+
   </div>
 
-  <div class="card">
-    <h2>🎯 Neues Tagesziel</h2>
-
-    <input id="sport" placeholder="Sportart (z.B. Liegestütze)">
-    <input id="amount" type="number" placeholder="Anzahl">
-
-    <button onclick="saveGoal()">Ziel speichern</button>
-  </div>
-
-  <div class="card">
-    <h2>📋 Deine Ziele</h2>
-
-    <ul id="goals"></ul>
-  </div>
-
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 
 </body>
+
 </html>
