@@ -2,119 +2,222 @@
 <html lang="de">
 
 <head>
+
   <meta charset="UTF-8">
-  <title>Elias Fitness Friends</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>SPORT</title>
 
   <!-- Firebase -->
+
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
   <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-  <div class="sidebar">
+  <!-- AUTH SCREEN -->
 
-    <h2>🏋️ EFF</h2>
+  <div id="authScreen" class="auth-screen">
 
-    <button onclick="showSection('dashboard')">
-      Dashboard
-    </button>
+    <div class="auth-box">
 
-    <button onclick="showSection('goals')">
-      Wochenziele
-    </button>
+      <h1>🏋️ SPORT</h1>
 
-    <button onclick="showSection('ranking')">
-      Ranking
-    </button>
+      <p>
+        Fitness • Level • Freunde • Ranking
+      </p>
 
-    <button onclick="logout()">
-      Logout
-    </button>
+      <input
+        type="email"
+        id="email"
+        placeholder="Email">
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Passwort">
+
+      <button onclick="register()">
+        Registrieren
+      </button>
+
+      <button onclick="login()">
+        Login
+      </button>
+
+    </div>
 
   </div>
 
-  <div class="main">
+  <!-- APP -->
 
-    <!-- DASHBOARD -->
-    <section id="dashboard" class="section">
+  <div id="app" class="app hidden">
 
-      <h1>🔥 Elias Fitness Friends</h1>
+    <!-- SIDEBAR -->
 
-      <div class="card">
-        <h2 id="user">Nicht eingeloggt</h2>
+    <div class="sidebar">
+
+      <h2>🏋️ SPORT</h2>
+
+      <button onclick="showSection('dashboard')">
+        Dashboard
+      </button>
+
+      <button onclick="showSection('goals')">
+        Ziele
+      </button>
+
+      <button onclick="showSection('ranking')">
+        Ranking
+      </button>
+
+      <button onclick="showSection('profile')">
+        Profil
+      </button>
+
+      <button onclick="logout()">
+        Logout
+      </button>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+      <!-- DASHBOARD -->
+
+      <section
+        id="dashboard"
+        class="section">
+
+        <h1>
+          Willkommen zurück 👋
+        </h1>
 
         <div class="stats">
 
-          <div class="stat-box">
+          <div class="stat-card">
+
             <h3>⭐ Level</h3>
+
             <p id="level">1</p>
+
           </div>
 
-          <div class="stat-box">
+          <div class="stat-card">
+
             <h3>🔥 XP</h3>
+
             <p id="xp">0</p>
+
           </div>
 
-          <div class="stat-box">
-            <h3>🏆 Rang</h3>
-            <p id="rank">#-</p>
+          <div class="stat-card">
+
+            <h3>🔥 Streak</h3>
+
+            <p id="streak">0</p>
+
           </div>
 
         </div>
-      </div>
 
-    </section>
+      </section>
 
-    <!-- GOALS -->
-    <section id="goals" class="section hidden">
+      <!-- GOALS -->
 
-      <div class="card">
+      <section
+        id="goals"
+        class="section hidden">
 
-        <h2>🎯 Wochenziel erstellen</h2>
+        <div class="card">
 
-        <select id="sportSelect"></select>
+          <h2>🎯 Ziel erstellen</h2>
 
-        <input
-          type="number"
-          id="amount"
-          placeholder="Anzahl / Minuten / KM">
+          <select id="sportSelect"></select>
 
-        <button onclick="createGoal()">
-          Ziel erstellen
-        </button>
+          <input
+            type="number"
+            id="amount"
+            placeholder="Anzahl / Minuten / KM">
 
-      </div>
+          <button onclick="createGoal()">
+            Ziel hinzufügen
+          </button>
 
-      <div class="card">
+        </div>
 
-        <h2>📋 Deine Wochenziele</h2>
+        <div class="card">
 
-        <ul id="goalsList"></ul>
+          <h2>📋 Deine Ziele</h2>
 
-      </div>
+          <ul id="goalsList"></ul>
 
-    </section>
+        </div>
 
-    <!-- RANKING -->
-    <section id="ranking" class="section hidden">
+      </section>
 
-      <div class="card">
+      <!-- RANKING -->
 
-        <h2>🏆 Globales Ranking</h2>
+      <section
+        id="ranking"
+        class="section hidden">
 
-        <ul id="rankingList"></ul>
+        <div class="card">
 
-      </div>
+          <h2>🏆 Top Spieler</h2>
 
-    </section>
+          <ul id="rankingList"></ul>
+
+        </div>
+
+      </section>
+
+      <!-- PROFILE -->
+
+      <section
+        id="profile"
+        class="section hidden">
+
+        <div class="card">
+
+          <h2>👤 Profil</h2>
+
+          <p id="profileEmail"></p>
+
+          <button onclick="resetProgress()">
+            Fortschritt zurücksetzen
+          </button>
+
+          <button
+            class="danger"
+            onclick="deleteAccount()">
+
+            Account löschen
+
+          </button>
+
+        </div>
+
+      </section>
+
+    </div>
 
   </div>
 
-  <!-- Scripts -->
+  <!-- MODULE -->
+
   <script src="sports.js"></script>
   <script src="xp-system.js"></script>
   <script src="ranking.js"></script>
