@@ -1,18 +1,24 @@
 // NAVIGATION
 
-function showSection(sectionId) {
+function showSection(sectionId){
 
   const sections =
-    document.querySelectorAll(".section");
+    document.querySelectorAll(
+      ".section"
+    );
 
-  sections.forEach(section => {
+  sections.forEach(section=>{
 
-    section.classList.add("hidden");
+    section.classList.add(
+      "hidden"
+    );
 
   });
 
   document
     .getElementById(sectionId)
-    .classList.remove("hidden");
+    .classList.remove(
+      "hidden"
+    );
 
 }
