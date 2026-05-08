@@ -1,6 +1,6 @@
 // LEVEL SYSTEM
 
-function calculateLevel(xp) {
+function calculateLevel(xp){
 
   return Math.floor(xp / 100) + 1;
 
@@ -8,7 +8,7 @@ function calculateLevel(xp) {
 
 // STREAK BONUS
 
-function calculateBonus(streak) {
+function calculateBonus(streak){
 
   return streak * 5;
 
