@@ -1,4 +1,4 @@
-// FIREBASE CONFIG
+// FIREBASE
 
 const firebaseConfig = {
 
@@ -21,39 +21,52 @@ const firebaseConfig = {
     "1:387221074867:web:9538df426a919c3be811c6"
 };
 
-// FIREBASE START
-
 firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
+const auth =
+  firebase.auth();
 
-const db = firebase.firestore();
+const db =
+  firebase.firestore();
 
 let currentUser = null;
 
 // AUTH STATE
 
-auth.onAuthStateChanged(async user => {
+auth.onAuthStateChanged(async user=>{
 
-  if (user) {
+  if(user){
 
     currentUser = user;
 
-    document.getElementById("user")
+    document
+      .getElementById("authScreen")
+      .classList.add("hidden");
+
+    document
+      .getElementById("app")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("profileEmail")
       .innerText =
-      "👤 " + user.email;
+      user.email;
 
-    loadUserData();
+    await loadUserData();
 
-    loadRanking();
+    await loadRanking();
 
-  } else {
+  }else{
 
     currentUser = null;
 
-    document.getElementById("user")
-      .innerText =
-      "Nicht eingeloggt";
+    document
+      .getElementById("authScreen")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("app")
+      .classList.add("hidden");
 
   }
 
@@ -61,94 +74,111 @@ auth.onAuthStateChanged(async user => {
 
 // REGISTER
 
-function register() {
+async function register(){
 
   const email =
-    prompt("Email:");
+    document.getElementById(
+      "email"
+    ).value;
 
   const password =
-    prompt("Passwort:");
+    document.getElementById(
+      "password"
+    ).value;
 
-  auth
-    .createUserWithEmailAndPassword(
-      email,
-      password
-    )
+  if(!email || !password){
 
-    .then(async userCredential => {
+    alert(
+      "Bitte alles ausfüllen!"
+    );
 
-      await db
-        .collection("users")
-        .doc(userCredential.user.uid)
-        .set({
+    return;
+  }
 
-          email: email,
+  try{
 
-          xp: 0,
+    const userCredential =
+      await auth
+        .createUserWithEmailAndPassword(
+          email,
+          password
+        );
 
-          level: 1,
+    await db
+      .collection("users")
+      .doc(
+        userCredential.user.uid
+      )
+      .set({
 
-          streak: 0
+        email:email,
 
-        });
+        xp:0,
 
-      alert("✅ Account erstellt!");
+        level:1,
 
-    })
+        streak:0,
 
-    .catch(err => {
+        created:
+          new Date()
 
-      alert(err.message);
+      });
 
-    });
+    alert(
+      "✅ Account erstellt!"
+    );
+
+  }catch(err){
+
+    alert(err.message);
+
+  }
 
 }
 
 // LOGIN
 
-function login() {
+async function login(){
 
   const email =
-    prompt("Email:");
+    document.getElementById(
+      "email"
+    ).value;
 
   const password =
-    prompt("Passwort:");
+    document.getElementById(
+      "password"
+    ).value;
 
-  auth
-    .signInWithEmailAndPassword(
-      email,
-      password
-    )
+  try{
 
-    .then(() => {
+    await auth
+      .signInWithEmailAndPassword(
+        email,
+        password
+      );
 
-      alert("🔥 Login erfolgreich!");
+  }catch(err){
 
-    })
+    alert(err.message);
 
-    .catch(err => {
-
-      alert(err.message);
-
-    });
+  }
 
 }
 
 // LOGOUT
 
-function logout() {
+function logout(){
 
   auth.signOut();
 
 }
 
-// GOAL ERSTELLEN
+// CREATE GOAL
 
-async function createGoal() {
+async function createGoal(){
 
-  if (!currentUser) {
-
-    alert("Bitte zuerst einloggen!");
+  if(!currentUser){
 
     return;
   }
@@ -165,49 +195,52 @@ async function createGoal() {
       ).value
     );
 
-  if (!amount || amount <= 0) {
+  if(!amount || amount <= 0){
 
-    alert("Ungültige Zahl!");
+    alert(
+      "Ungültige Zahl!"
+    );
 
     return;
   }
-
-  // SPORT SUCHEN
 
   const sport =
     sports.find(
       s => s.name === sportName
     );
 
-  // XP
-
   const xp =
     sport.xp * amount;
 
-  // GOAL SPEICHERN
+  // GOAL
 
   await db
     .collection("goals")
     .add({
 
-      uid: currentUser.uid,
+      uid:
+        currentUser.uid,
 
-      sport: sport.name,
+      sport:
+        sport.name,
 
-      amount: amount,
+      amount:
+        amount,
 
-      xp: xp,
+      xp:
+        xp,
+
+      done:false,
 
       created:
         new Date()
 
     });
 
-  // USER XP
+  // XP
 
   const userRef =
-    db
-      .collection("users")
+    db.collection("users")
       .doc(currentUser.uid);
 
   const userDoc =
@@ -219,35 +252,39 @@ async function createGoal() {
   currentXP += xp;
 
   const level =
-    calculateLevel(currentXP);
+    calculateLevel(
+      currentXP
+    );
 
   await userRef.update({
 
-    xp: currentXP,
+    xp:
+      currentXP,
 
-    level: level
+    level:
+      level
 
   });
 
-  // RESET
-
   document
-    .getElementById("amount")
-    .value = "";
+    .getElementById(
+      "amount"
+    ).value = "";
 
-  loadUserData();
+  await loadUserData();
 
-  loadRanking();
+  await loadRanking();
 
 }
 
-// USER DATEN LADEN
+// LOAD USER
 
-async function loadUserData() {
+async function loadUserData(){
 
-  if (!currentUser) return;
+  if(!currentUser){
 
-  // USER
+    return;
+  }
 
   const userDoc =
     await db
@@ -268,6 +305,11 @@ async function loadUserData() {
     .innerText =
     userData.level;
 
+  document
+    .getElementById("streak")
+    .innerText =
+    userData.streak || 0;
+
   // GOALS
 
   const goalsList =
@@ -287,13 +329,15 @@ async function loadUserData() {
       )
       .get();
 
-  snapshot.forEach(doc => {
+  snapshot.forEach(doc=>{
 
     const data =
       doc.data();
 
     const li =
-      document.createElement("li");
+      document.createElement(
+        "li"
+      );
 
     li.innerHTML = `
 
@@ -303,7 +347,7 @@ async function loadUserData() {
           ${data.sport}
         </strong>
 
-        <br>
+        <br><br>
 
         ${data.amount}
 
@@ -320,7 +364,7 @@ async function loadUserData() {
           )
         "
       >
-        ✅ Erledigt
+        ✅ Fertig
       </button>
 
     `;
@@ -331,15 +375,113 @@ async function loadUserData() {
 
 }
 
-// GOAL ABSCHLIESSEN
+// COMPLETE GOAL
 
-async function completeGoal(goalId) {
+async function completeGoal(goalId){
 
   await db
     .collection("goals")
     .doc(goalId)
     .delete();
 
-  loadUserData();
+  await loadUserData();
+
+}
+
+// RESET
+
+async function resetProgress(){
+
+  const reset =
+    confirm(
+      "Fortschritt löschen?"
+    );
+
+  if(!reset){
+
+    return;
+  }
+
+  await db
+    .collection("users")
+    .doc(currentUser.uid)
+    .update({
+
+      xp:0,
+
+      level:1,
+
+      streak:0
+
+    });
+
+  const snapshot =
+    await db
+      .collection("goals")
+      .where(
+        "uid",
+        "==",
+        currentUser.uid
+      )
+      .get();
+
+  snapshot.forEach(async doc=>{
+
+    await db
+      .collection("goals")
+      .doc(doc.id)
+      .delete();
+
+  });
+
+  await loadUserData();
+
+  await loadRanking();
+
+}
+
+// DELETE ACCOUNT
+
+async function deleteAccount(){
+
+  const confirmDelete =
+    confirm(
+      "ACCOUNT LÖSCHEN?"
+    );
+
+  if(!confirmDelete){
+
+    return;
+  }
+
+  const snapshot =
+    await db
+      .collection("goals")
+      .where(
+        "uid",
+        "==",
+        currentUser.uid
+      )
+      .get();
+
+  snapshot.forEach(async doc=>{
+
+    await db
+      .collection("goals")
+      .doc(doc.id)
+      .delete();
+
+  });
+
+  await db
+    .collection("users")
+    .doc(currentUser.uid)
+    .delete();
+
+  await currentUser.delete();
+
+  alert(
+    "🗑️ Account gelöscht!"
+  );
 
 }
